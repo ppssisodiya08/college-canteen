@@ -15,8 +15,9 @@ const sendTokenCookie = (user, statusCode, res, message = 'Success') => {
 
   const cookieOptions = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
+    secure: true,
+    sameSite: 'none',
+    path: '/',
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in ms
   };
 
@@ -111,9 +112,10 @@ const login = async (req, res, next) => {
 const logout = async (req, res, next) => {
   try {
     res.cookie('token', '', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+     httpOnly: true,
+     secure: true,
+     sameSite: 'none',
+     path: '/',
       expires: new Date(0),
     });
 
