@@ -31,7 +31,7 @@ const app = express();
 // CORS tells browsers which origins are allowed to make requests to our server.
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "https://glittering-malabi-7eae0e.netlify.app",
+    origin: process.env.CLIENT_URL || "https://collage-canteen.netlify.app",
     credentials: true, // Required to allow cookies (httpOnly JWT cookies)
   })
 );
