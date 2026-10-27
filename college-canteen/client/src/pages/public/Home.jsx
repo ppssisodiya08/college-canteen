@@ -84,9 +84,9 @@ export default function Home() {
 
             {/* Hero Graphic Card – Real Food Image Collage */}
             <div className="lg:col-span-5 flex justify-center">
-              <div className="relative w-full max-w-md">
+              <div className="relative w-full max-w-md px-6 sm:px-0">
                 {/* Floating badge */}
-                <div className="absolute -top-4 -right-4 z-20 bg-white rounded-2xl shadow-xl px-4 py-2 flex items-center gap-2 border border-orange-100">
+                <div className="absolute -top-4 -right-2 sm:-right-4 z-20 bg-white rounded-2xl shadow-xl px-3 sm:px-4 py-2 flex items-center gap-2 border border-orange-100">
                   <span className="text-xl">⭐</span>
                   <div>
                     <p className="text-xs font-bold text-charcoal-900">4.9 Rating</p>
@@ -95,7 +95,7 @@ export default function Home() {
                 </div>
 
                 {/* Floating open badge */}
-                <div className="absolute -bottom-4 -left-4 z-20 bg-white rounded-2xl shadow-xl px-4 py-2 flex items-center gap-2 border border-green-100">
+                <div className="absolute -bottom-4 -left-2 sm:-left-4 z-20 bg-white rounded-2xl shadow-xl px-3 sm:px-4 py-2 flex items-center gap-2 border border-green-100">
                   <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse block"></span>
                   <div>
                     <p className="text-xs font-bold text-green-700">Open Now</p>

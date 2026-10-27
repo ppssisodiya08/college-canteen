@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { FiSearch, FiUserCheck, FiUserX, FiAlertCircle, FiCalendar } from 'react-icons/fi';
+import { FiSearch, FiAlertCircle, FiCalendar } from 'react-icons/fi';
 import * as userService from '../../services/userService';
 import Spinner from '../../components/common/Spinner';
 import Pagination from '../../components/common/Pagination';
@@ -104,65 +104,108 @@ export default function AdminStudents() {
             <p className="text-xs">No registered student accounts match your search filter.</p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-charcoal-50 border-b border-charcoal-200 text-xs text-charcoal-500 uppercase tracking-wider">
-                <tr>
-                  <th className="py-3.5 px-6">Name</th>
-                  <th className="py-3.5 px-4">Email</th>
-                  <th className="py-3.5 px-4">Student ID</th>
-                  <th className="py-3.5 px-4">Phone</th>
-                  <th className="py-3.5 px-4">Joined</th>
-                  <th className="py-3.5 px-6 text-right">Account Status</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-charcoal-100">
-                {students.map((student) => (
-                  <tr key={student._id} className="hover:bg-charcoal-50/60 transition-colors">
-                    <td className="py-4 px-6 font-semibold text-charcoal-900">
-                      {student.name}
-                    </td>
-
-                    <td className="py-4 px-4 text-charcoal-600">
-                      {student.email}
-                    </td>
-
-                    <td className="py-4 px-4 font-mono text-xs font-semibold text-charcoal-700">
-                      {student.studentId || '—'}
-                    </td>
-
-                    <td className="py-4 px-4 text-charcoal-600">
-                      {student.phone || '—'}
-                    </td>
-
-                    <td className="py-4 px-4 text-xs text-charcoal-500">
+          <>
+            {/* ── Mobile card view (< sm) ──────────────────────── */}
+            <div className="block sm:hidden divide-y divide-charcoal-100">
+              {students.map((student) => (
+                <div key={student._id} className="p-4 space-y-2">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <p className="font-semibold text-charcoal-900 truncate">{student.name}</p>
+                      <p className="text-xs text-charcoal-500 truncate">{student.email}</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleToggleStatus(student._id)}
+                      disabled={togglingId === student._id}
+                      className={`badge cursor-pointer transition-all flex-shrink-0 ${
+                        student.isActive !== false ? 'badge-green' : 'badge-red'
+                      }`}
+                    >
+                      {togglingId === student._id
+                        ? 'Updating...'
+                        : student.isActive !== false
+                        ? 'Active'
+                        : 'Deactivated'}
+                    </button>
+                  </div>
+                  <div className="flex items-center gap-3 text-xs text-charcoal-500 flex-wrap">
+                    {student.studentId && (
+                      <span className="font-mono font-semibold text-charcoal-700">
+                        ID: {student.studentId}
+                      </span>
+                    )}
+                    {student.phone && <span>📞 {student.phone}</span>}
+                    <span className="flex items-center gap-1">
+                      <FiCalendar className="w-3 h-3" />
                       {formatDate(student.createdAt)}
-                    </td>
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
 
-                    <td className="py-4 px-6 text-right">
-                      <button
-                        type="button"
-                        onClick={() => handleToggleStatus(student._id)}
-                        disabled={togglingId === student._id}
-                        className={`badge cursor-pointer transition-all ${
-                          student.isActive !== false ? 'badge-green' : 'badge-red'
-                        }`}
-                        title="Click to toggle account activation status"
-                      >
-                        {togglingId === student._id ? (
-                          'Updating...'
-                        ) : student.isActive !== false ? (
-                          'Active'
-                        ) : (
-                          'Deactivated'
-                        )}
-                      </button>
-                    </td>
+            {/* ── Desktop table view (≥ sm) ────────────────────── */}
+            <div className="hidden sm:block overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead className="bg-charcoal-50 border-b border-charcoal-200 text-xs text-charcoal-500 uppercase tracking-wider">
+                  <tr>
+                    <th className="py-3.5 px-6">Name</th>
+                    <th className="py-3.5 px-4">Email</th>
+                    <th className="py-3.5 px-4">Student ID</th>
+                    <th className="py-3.5 px-4">Phone</th>
+                    <th className="py-3.5 px-4">Joined</th>
+                    <th className="py-3.5 px-6 text-right">Account Status</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="divide-y divide-charcoal-100">
+                  {students.map((student) => (
+                    <tr key={student._id} className="hover:bg-charcoal-50/60 transition-colors">
+                      <td className="py-4 px-6 font-semibold text-charcoal-900">
+                        {student.name}
+                      </td>
+
+                      <td className="py-4 px-4 text-charcoal-600">
+                        {student.email}
+                      </td>
+
+                      <td className="py-4 px-4 font-mono text-xs font-semibold text-charcoal-700">
+                        {student.studentId || '—'}
+                      </td>
+
+                      <td className="py-4 px-4 text-charcoal-600">
+                        {student.phone || '—'}
+                      </td>
+
+                      <td className="py-4 px-4 text-xs text-charcoal-500">
+                        {formatDate(student.createdAt)}
+                      </td>
+
+                      <td className="py-4 px-6 text-right">
+                        <button
+                          type="button"
+                          onClick={() => handleToggleStatus(student._id)}
+                          disabled={togglingId === student._id}
+                          className={`badge cursor-pointer transition-all ${
+                            student.isActive !== false ? 'badge-green' : 'badge-red'
+                          }`}
+                          title="Click to toggle account activation status"
+                        >
+                          {togglingId === student._id ? (
+                            'Updating...'
+                          ) : student.isActive !== false ? (
+                            'Active'
+                          ) : (
+                            'Deactivated'
+                          )}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
 
         <div className="p-4 border-t border-charcoal-100">

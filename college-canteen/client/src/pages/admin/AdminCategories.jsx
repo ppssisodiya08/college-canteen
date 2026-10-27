@@ -202,55 +202,93 @@ export default function AdminCategories() {
             <p className="text-xs">Add your first food category using the form above.</p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-charcoal-50 border-b border-charcoal-200 text-xs text-charcoal-500 uppercase tracking-wider">
-                <tr>
-                  <th className="py-3.5 px-6">Name</th>
-                  <th className="py-3.5 px-4">Description</th>
-                  <th className="py-3.5 px-4 text-center">Active Status</th>
-                  <th className="py-3.5 px-6 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-charcoal-100">
-                {categories.map((cat) => (
-                  <tr key={cat._id} className="hover:bg-charcoal-50/60 transition-colors">
-                    <td className="py-4 px-6 font-semibold text-charcoal-900">
-                      {cat.name}
-                    </td>
-                    <td className="py-4 px-4 text-xs text-charcoal-500 max-w-sm truncate">
-                      {cat.description || '—'}
-                    </td>
-                    <td className="py-4 px-4 text-center">
-                      <span className={`badge ${cat.isActive !== false ? 'badge-green' : 'badge-gray'}`}>
-                        {cat.isActive !== false ? 'Active' : 'Inactive'}
-                      </span>
-                    </td>
-                    <td className="py-4 px-6 text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <button
-                          type="button"
-                          onClick={() => handleOpenEdit(cat)}
-                          className="p-2 text-charcoal-500 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
-                          aria-label="Edit category"
-                        >
-                          <FiEdit2 className="w-4 h-4" />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleOpenDelete(cat)}
-                          className="p-2 text-charcoal-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                          aria-label="Delete category"
-                        >
-                          <FiTrash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </td>
+          <>
+            {/* ── Mobile card view (< sm) ──────────────────────── */}
+            <div className="block sm:hidden divide-y divide-charcoal-100">
+              {categories.map((cat) => (
+                <div key={cat._id} className="p-4 flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="font-semibold text-charcoal-900">{cat.name}</p>
+                    {cat.description && (
+                      <p className="text-xs text-charcoal-500 mt-0.5 line-clamp-2">{cat.description}</p>
+                    )}
+                    <span className={`badge mt-1.5 ${cat.isActive !== false ? 'badge-green' : 'badge-gray'}`}>
+                      {cat.isActive !== false ? 'Active' : 'Inactive'}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1 flex-shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => handleOpenEdit(cat)}
+                      className="p-2 text-charcoal-500 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+                      aria-label="Edit category"
+                    >
+                      <FiEdit2 className="w-4 h-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleOpenDelete(cat)}
+                      className="p-2 text-charcoal-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                      aria-label="Delete category"
+                    >
+                      <FiTrash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* ── Desktop table view (≥ sm) ────────────────────── */}
+            <div className="hidden sm:block overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead className="bg-charcoal-50 border-b border-charcoal-200 text-xs text-charcoal-500 uppercase tracking-wider">
+                  <tr>
+                    <th className="py-3.5 px-6">Name</th>
+                    <th className="py-3.5 px-4">Description</th>
+                    <th className="py-3.5 px-4 text-center">Active Status</th>
+                    <th className="py-3.5 px-6 text-right">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="divide-y divide-charcoal-100">
+                  {categories.map((cat) => (
+                    <tr key={cat._id} className="hover:bg-charcoal-50/60 transition-colors">
+                      <td className="py-4 px-6 font-semibold text-charcoal-900">
+                        {cat.name}
+                      </td>
+                      <td className="py-4 px-4 text-xs text-charcoal-500 max-w-sm truncate">
+                        {cat.description || '—'}
+                      </td>
+                      <td className="py-4 px-4 text-center">
+                        <span className={`badge ${cat.isActive !== false ? 'badge-green' : 'badge-gray'}`}>
+                          {cat.isActive !== false ? 'Active' : 'Inactive'}
+                        </span>
+                      </td>
+                      <td className="py-4 px-6 text-right">
+                        <div className="flex items-center justify-end gap-2">
+                          <button
+                            type="button"
+                            onClick={() => handleOpenEdit(cat)}
+                            className="p-2 text-charcoal-500 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+                            aria-label="Edit category"
+                          >
+                            <FiEdit2 className="w-4 h-4" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleOpenDelete(cat)}
+                            className="p-2 text-charcoal-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                            aria-label="Delete category"
+                          >
+                            <FiTrash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </div>
 

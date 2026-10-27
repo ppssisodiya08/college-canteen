@@ -58,18 +58,18 @@ export default function Cart() {
           {cartItems.map((item) => (
             <div
               key={item._id}
-              className="card p-4 sm:p-5 flex flex-col sm:flex-row items-center gap-4 border border-charcoal-100"
+              className="card p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4 border border-charcoal-100"
             >
               {/* Food Image */}
               <img
                 src={item.image || FALLBACK_FOOD_IMAGE}
                 alt={item.name}
                 onError={handleImageError}
-                className="w-20 h-20 rounded-xl object-cover bg-charcoal-100 flex-shrink-0"
+                className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl object-cover bg-charcoal-100 flex-shrink-0"
               />
 
               {/* Title & Unit Price */}
-              <div className="flex-1 text-center sm:text-left">
+              <div className="flex-1 text-left">
                 <Link
                   to={`/menu/${item._id}`}
                   className="font-display font-bold text-base text-charcoal-900 hover:text-primary-600 transition-colors"
@@ -81,46 +81,49 @@ export default function Cart() {
                 </p>
               </div>
 
-              {/* Quantity Controls */}
-              <div className="flex items-center border border-charcoal-200 rounded-xl bg-charcoal-50 overflow-hidden">
+              {/* Row: quantity + subtotal + delete */}
+              <div className="flex items-center gap-3 w-full sm:w-auto">
+                {/* Quantity Controls */}
+                <div className="flex items-center border border-charcoal-200 rounded-xl bg-charcoal-50 overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={() => updateQty(item._id, item.quantity - 1)}
+                    className="p-2 text-charcoal-600 hover:bg-charcoal-200 transition-colors"
+                    aria-label="Decrease quantity"
+                  >
+                    <FiMinus className="w-3.5 h-3.5" />
+                  </button>
+                  <span className="px-3.5 text-sm font-bold text-charcoal-900">
+                    {item.quantity}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => updateQty(item._id, item.quantity + 1)}
+                    disabled={Boolean(item.stock && item.quantity >= item.stock)}
+                    className="p-2 text-charcoal-600 hover:bg-charcoal-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                    aria-label="Increase quantity"
+                  >
+                    <FiPlus className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+
+                {/* Subtotal */}
+                <div className="flex-1 sm:flex-none text-right sm:min-w-[80px]">
+                  <span className="font-display font-bold text-base text-charcoal-900">
+                    {formatPrice(item.price * item.quantity)}
+                  </span>
+                </div>
+
+                {/* Delete Button */}
                 <button
                   type="button"
-                  onClick={() => updateQty(item._id, item.quantity - 1)}
-                  className="p-2 text-charcoal-600 hover:bg-charcoal-200 transition-colors"
-                  aria-label="Decrease quantity"
+                  onClick={() => removeFromCart(item._id)}
+                  className="text-charcoal-400 hover:text-red-600 p-2 rounded-lg hover:bg-red-50 transition-colors"
+                  aria-label={`Remove ${item.name} from cart`}
                 >
-                  <FiMinus className="w-3.5 h-3.5" />
-                </button>
-                <span className="px-3.5 text-sm font-bold text-charcoal-900">
-                  {item.quantity}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => updateQty(item._id, item.quantity + 1)}
-                  disabled={Boolean(item.stock && item.quantity >= item.stock)}
-                  className="p-2 text-charcoal-600 hover:bg-charcoal-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-                  aria-label="Increase quantity"
-                >
-                  <FiPlus className="w-3.5 h-3.5" />
+                  <FiTrash2 className="w-4 h-4" />
                 </button>
               </div>
-
-              {/* Subtotal */}
-              <div className="text-right min-w-[80px]">
-                <span className="font-display font-bold text-base text-charcoal-900">
-                  {formatPrice(item.price * item.quantity)}
-                </span>
-              </div>
-
-              {/* Delete Button */}
-              <button
-                type="button"
-                onClick={() => removeFromCart(item._id)}
-                className="text-charcoal-400 hover:text-red-600 p-2 rounded-lg hover:bg-red-50 transition-colors"
-                aria-label={`Remove ${item.name} from cart`}
-              >
-                <FiTrash2 className="w-4 h-4" />
-              </button>
             </div>
           ))}
         </div>

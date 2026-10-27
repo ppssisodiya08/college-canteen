@@ -5,8 +5,6 @@ import {
   FiSearch,
   FiEdit2,
   FiTrash2,
-  FiCheckCircle,
-  FiXCircle,
   FiAlertCircle,
 } from 'react-icons/fi';
 import * as foodService from '../../services/foodService';
@@ -137,7 +135,7 @@ export default function AdminFoods() {
         />
       </div>
 
-      {/* Foods Table */}
+      {/* Foods Table / Cards */}
       <div className="card p-0 border border-charcoal-100 shadow-xs overflow-hidden">
         {loading ? (
           <Spinner size="lg" className="py-20" />
@@ -155,99 +153,150 @@ export default function AdminFoods() {
             <p className="text-xs">Try a different search term or add a new dish to the canteen.</p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-charcoal-50 border-b border-charcoal-200 text-xs text-charcoal-500 uppercase tracking-wider">
-                <tr>
-                  <th className="py-3.5 px-6">Dish</th>
-                  <th className="py-3.5 px-4">Category</th>
-                  <th className="py-3.5 px-4">Price</th>
-                  <th className="py-3.5 px-4">Stock</th>
-                  <th className="py-3.5 px-4 text-center">Status</th>
-                  <th className="py-3.5 px-6 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-charcoal-100">
-                {foods.map((food) => (
-                  <tr key={food._id} className="hover:bg-charcoal-50/60 transition-colors">
-                    <td className="py-4 px-6">
-                      <div className="flex items-center gap-3">
-                        <img
-                          src={food.image || FALLBACK_FOOD_IMAGE}
-                          alt={food.name}
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = FALLBACK_FOOD_IMAGE;
-                          }}
-                          className="w-12 h-12 rounded-xl object-cover bg-charcoal-100 flex-shrink-0"
-                        />
-                        <div>
-                          <p className="font-semibold text-charcoal-900">{food.name}</p>
-                          <p className="text-xs text-charcoal-400 line-clamp-1 max-w-xs">
-                            {food.description}
-                          </p>
-                        </div>
-                      </div>
-                    </td>
-
-                    <td className="py-4 px-4">
-                      <span className="badge badge-gray text-xs">
-                        {food.category?.name || 'General'}
-                      </span>
-                    </td>
-
-                    <td className="py-4 px-4 font-bold text-charcoal-900">
-                      {formatPrice(food.price)}
-                    </td>
-
-                    <td className="py-4 px-4 text-charcoal-700 font-medium">
-                      {food.stock}
-                    </td>
-
-                    <td className="py-4 px-4 text-center">
+          <>
+            {/* ── Mobile card view (< sm) ──────────────────────── */}
+            <div className="block sm:hidden divide-y divide-charcoal-100">
+              {foods.map((food) => (
+                <div key={food._id} className="p-4 flex items-start gap-3">
+                  <img
+                    src={food.image || FALLBACK_FOOD_IMAGE}
+                    alt={food.name}
+                    onError={(e) => { e.target.onerror = null; e.target.src = FALLBACK_FOOD_IMAGE; }}
+                    className="w-14 h-14 rounded-xl object-cover bg-charcoal-100 flex-shrink-0"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-charcoal-900 truncate">{food.name}</p>
+                    <p className="text-xs text-charcoal-400 line-clamp-1">{food.description}</p>
+                    <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                      <span className="badge badge-gray text-xs">{food.category?.name || 'General'}</span>
+                      <span className="font-bold text-primary-600 text-sm">{formatPrice(food.price)}</span>
+                      <span className="text-xs text-charcoal-500">Stock: {food.stock}</span>
+                    </div>
+                    <div className="flex items-center gap-2 mt-2">
                       <button
                         type="button"
                         onClick={() => handleToggleAvailability(food._id)}
                         disabled={togglingId === food._id}
-                        className={`badge cursor-pointer transition-all ${
-                          food.isAvailable ? 'badge-green' : 'badge-red'
-                        }`}
-                        title="Click to toggle availability"
+                        className={`badge cursor-pointer transition-all ${food.isAvailable ? 'badge-green' : 'badge-red'}`}
                       >
-                        {togglingId === food._id ? (
-                          'Updating...'
-                        ) : food.isAvailable ? (
-                          'Available'
-                        ) : (
-                          'Unavailable'
-                        )}
+                        {togglingId === food._id ? 'Updating...' : food.isAvailable ? 'Available' : 'Unavailable'}
                       </button>
-                    </td>
+                      <Link
+                        to={`/admin/foods/edit/${food._id}`}
+                        className="p-1.5 text-charcoal-500 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+                        aria-label="Edit food"
+                      >
+                        <FiEdit2 className="w-4 h-4" />
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => handleOpenDelete(food)}
+                        className="p-1.5 text-charcoal-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                        aria-label="Delete food"
+                      >
+                        <FiTrash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
 
-                    <td className="py-4 px-6 text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <Link
-                          to={`/admin/foods/edit/${food._id}`}
-                          className="p-2 text-charcoal-500 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
-                          aria-label="Edit food"
-                        >
-                          <FiEdit2 className="w-4 h-4" />
-                        </Link>
+            {/* ── Desktop table view (≥ sm) ────────────────────── */}
+            <div className="hidden sm:block overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead className="bg-charcoal-50 border-b border-charcoal-200 text-xs text-charcoal-500 uppercase tracking-wider">
+                  <tr>
+                    <th className="py-3.5 px-6">Dish</th>
+                    <th className="py-3.5 px-4">Category</th>
+                    <th className="py-3.5 px-4">Price</th>
+                    <th className="py-3.5 px-4">Stock</th>
+                    <th className="py-3.5 px-4 text-center">Status</th>
+                    <th className="py-3.5 px-6 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-charcoal-100">
+                  {foods.map((food) => (
+                    <tr key={food._id} className="hover:bg-charcoal-50/60 transition-colors">
+                      <td className="py-4 px-6">
+                        <div className="flex items-center gap-3">
+                          <img
+                            src={food.image || FALLBACK_FOOD_IMAGE}
+                            alt={food.name}
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = FALLBACK_FOOD_IMAGE;
+                            }}
+                            className="w-12 h-12 rounded-xl object-cover bg-charcoal-100 flex-shrink-0"
+                          />
+                          <div>
+                            <p className="font-semibold text-charcoal-900">{food.name}</p>
+                            <p className="text-xs text-charcoal-400 line-clamp-1 max-w-xs">
+                              {food.description}
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+
+                      <td className="py-4 px-4">
+                        <span className="badge badge-gray text-xs">
+                          {food.category?.name || 'General'}
+                        </span>
+                      </td>
+
+                      <td className="py-4 px-4 font-bold text-charcoal-900">
+                        {formatPrice(food.price)}
+                      </td>
+
+                      <td className="py-4 px-4 text-charcoal-700 font-medium">
+                        {food.stock}
+                      </td>
+
+                      <td className="py-4 px-4 text-center">
                         <button
                           type="button"
-                          onClick={() => handleOpenDelete(food)}
-                          className="p-2 text-charcoal-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                          aria-label="Delete food"
+                          onClick={() => handleToggleAvailability(food._id)}
+                          disabled={togglingId === food._id}
+                          className={`badge cursor-pointer transition-all ${
+                            food.isAvailable ? 'badge-green' : 'badge-red'
+                          }`}
+                          title="Click to toggle availability"
                         >
-                          <FiTrash2 className="w-4 h-4" />
+                          {togglingId === food._id ? (
+                            'Updating...'
+                          ) : food.isAvailable ? (
+                            'Available'
+                          ) : (
+                            'Unavailable'
+                          )}
                         </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                      </td>
+
+                      <td className="py-4 px-6 text-right">
+                        <div className="flex items-center justify-end gap-2">
+                          <Link
+                            to={`/admin/foods/edit/${food._id}`}
+                            className="p-2 text-charcoal-500 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+                            aria-label="Edit food"
+                          >
+                            <FiEdit2 className="w-4 h-4" />
+                          </Link>
+                          <button
+                            type="button"
+                            onClick={() => handleOpenDelete(food)}
+                            className="p-2 text-charcoal-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                            aria-label="Delete food"
+                          >
+                            <FiTrash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
 
         <div className="p-4 border-t border-charcoal-100">

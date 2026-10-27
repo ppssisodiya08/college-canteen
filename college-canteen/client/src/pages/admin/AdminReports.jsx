@@ -100,7 +100,7 @@ export default function AdminReports() {
       </div>
 
       {/* Revenue Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
         <div className="card p-6 border border-charcoal-100 shadow-xs flex items-center gap-4">
           <div className="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-2xl flex-shrink-0">
             <FiCalendar className="w-7 h-7" />

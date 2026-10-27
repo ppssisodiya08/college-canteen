@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { FiSearch, FiEye, FiClock, FiAlertCircle, FiCheck, FiX } from 'react-icons/fi';
+import { FiSearch, FiEye, FiAlertCircle } from 'react-icons/fi';
 import * as orderService from '../../services/orderService';
 import Spinner from '../../components/common/Spinner';
 import Pagination from '../../components/common/Pagination';
@@ -69,9 +69,8 @@ export default function AdminOrders() {
     if (!newStatus) return;
     try {
       setUpdatingId(orderId);
-      const res = await orderService.updateOrderStatus(orderId, newStatus);
+      await orderService.updateOrderStatus(orderId, newStatus);
       toast(`Order status updated to ${newStatus}`, 'success');
-      // Update local state
       setOrders((prev) =>
         prev.map((o) => (o._id === orderId ? { ...o, orderStatus: newStatus } : o))
       );
@@ -158,87 +157,147 @@ export default function AdminOrders() {
             <p className="text-xs">No customer orders match the current filter criteria.</p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-charcoal-50 border-b border-charcoal-200 text-xs text-charcoal-500 uppercase tracking-wider">
-                <tr>
-                  <th className="py-3.5 px-6">Token #</th>
-                  <th className="py-3.5 px-4">Student</th>
-                  <th className="py-3.5 px-4 text-center">Items</th>
-                  <th className="py-3.5 px-4">Total</th>
-                  <th className="py-3.5 px-4">Status</th>
-                  <th className="py-3.5 px-4">Next Step</th>
-                  <th className="py-3.5 px-6 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-charcoal-100">
-                {orders.map((ord) => {
-                  const allowedNext = VALID_NEXT_STATUS[ord.orderStatus] || [];
-                  const itemCount = ord.items?.reduce((acc, it) => acc + (it.quantity || 1), 0);
-
-                  return (
-                    <tr key={ord._id} className="hover:bg-charcoal-50/60 transition-colors">
-                      <td className="py-4 px-6 font-mono font-bold text-charcoal-900">
-                        {ord.orderNumber}
-                      </td>
-
-                      <td className="py-4 px-4">
-                        <p className="font-semibold text-charcoal-800">
+          <>
+            {/* ── Mobile card view (< sm) ──────────────────────── */}
+            <div className="block sm:hidden divide-y divide-charcoal-100">
+              {orders.map((ord) => {
+                const allowedNext = VALID_NEXT_STATUS[ord.orderStatus] || [];
+                const itemCount = ord.items?.reduce((acc, it) => acc + (it.quantity || 1), 0);
+                return (
+                  <div key={ord._id} className="p-4 space-y-2.5">
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <p className="font-mono font-bold text-sm text-charcoal-900">
+                          {ord.orderNumber}
+                        </p>
+                        <p className="font-semibold text-charcoal-800 text-sm">
                           {ord.user?.name || 'Walk-in Student'}
                         </p>
                         <p className="text-xs text-charcoal-400">
                           {ord.user?.studentId || ord.user?.email || '—'}
                         </p>
-                      </td>
+                      </div>
+                      <StatusBadge status={ord.orderStatus} />
+                    </div>
 
-                      <td className="py-4 px-4 text-center font-semibold text-charcoal-700">
-                        {itemCount}
-                      </td>
-
-                      <td className="py-4 px-4 font-bold text-charcoal-900">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-charcoal-500">
+                        {itemCount} item{itemCount !== 1 ? 's' : ''}
+                      </span>
+                      <span className="font-bold text-charcoal-900">
                         {formatPrice(ord.totalAmount)}
-                      </td>
+                      </span>
+                    </div>
 
-                      <td className="py-4 px-4">
-                        <StatusBadge status={ord.orderStatus} />
-                      </td>
-
-                      <td className="py-4 px-4">
-                        {allowedNext.length > 0 ? (
-                          <div className="flex items-center gap-1.5">
-                            {allowedNext.map((nextSt) => (
-                              <button
-                                key={nextSt}
-                                type="button"
-                                onClick={() => handleStatusChange(ord._id, nextSt)}
-                                disabled={updatingId === ord._id}
-                                className="btn-primary btn-sm py-1 px-2.5 text-xs shadow-xs"
-                              >
-                                {updatingId === ord._id ? 'Updating...' : `Advance to ${nextSt}`}
-                              </button>
-                            ))}
-                          </div>
-                        ) : (
-                          <span className="text-xs text-charcoal-400 italic">None</span>
-                        )}
-                      </td>
-
-                      <td className="py-4 px-6 text-right">
+                    <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-charcoal-100">
+                      {allowedNext.map((nextSt) => (
                         <button
+                          key={nextSt}
                           type="button"
-                          onClick={() => handleOpenDetail(ord)}
-                          className="btn-outline btn-sm py-1.5 px-3 flex items-center gap-1 ml-auto"
+                          onClick={() => handleStatusChange(ord._id, nextSt)}
+                          disabled={updatingId === ord._id}
+                          className="btn-primary btn-sm py-1 px-2.5 text-xs"
                         >
-                          <FiEye className="w-3.5 h-3.5" />
-                          <span>View</span>
+                          {updatingId === ord._id ? 'Updating...' : `→ ${nextSt}`}
                         </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+                      ))}
+                      <button
+                        type="button"
+                        onClick={() => handleOpenDetail(ord)}
+                        className="btn-outline btn-sm py-1 px-2.5 text-xs flex items-center gap-1"
+                      >
+                        <FiEye className="w-3.5 h-3.5" />
+                        View
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* ── Desktop table view (≥ sm) ────────────────────── */}
+            <div className="hidden sm:block overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead className="bg-charcoal-50 border-b border-charcoal-200 text-xs text-charcoal-500 uppercase tracking-wider">
+                  <tr>
+                    <th className="py-3.5 px-6">Token #</th>
+                    <th className="py-3.5 px-4">Student</th>
+                    <th className="py-3.5 px-4 text-center">Items</th>
+                    <th className="py-3.5 px-4">Total</th>
+                    <th className="py-3.5 px-4">Status</th>
+                    <th className="py-3.5 px-4">Next Step</th>
+                    <th className="py-3.5 px-6 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-charcoal-100">
+                  {orders.map((ord) => {
+                    const allowedNext = VALID_NEXT_STATUS[ord.orderStatus] || [];
+                    const itemCount = ord.items?.reduce((acc, it) => acc + (it.quantity || 1), 0);
+
+                    return (
+                      <tr key={ord._id} className="hover:bg-charcoal-50/60 transition-colors">
+                        <td className="py-4 px-6 font-mono font-bold text-charcoal-900">
+                          {ord.orderNumber}
+                        </td>
+
+                        <td className="py-4 px-4">
+                          <p className="font-semibold text-charcoal-800">
+                            {ord.user?.name || 'Walk-in Student'}
+                          </p>
+                          <p className="text-xs text-charcoal-400">
+                            {ord.user?.studentId || ord.user?.email || '—'}
+                          </p>
+                        </td>
+
+                        <td className="py-4 px-4 text-center font-semibold text-charcoal-700">
+                          {itemCount}
+                        </td>
+
+                        <td className="py-4 px-4 font-bold text-charcoal-900">
+                          {formatPrice(ord.totalAmount)}
+                        </td>
+
+                        <td className="py-4 px-4">
+                          <StatusBadge status={ord.orderStatus} />
+                        </td>
+
+                        <td className="py-4 px-4">
+                          {allowedNext.length > 0 ? (
+                            <div className="flex items-center gap-1.5">
+                              {allowedNext.map((nextSt) => (
+                                <button
+                                  key={nextSt}
+                                  type="button"
+                                  onClick={() => handleStatusChange(ord._id, nextSt)}
+                                  disabled={updatingId === ord._id}
+                                  className="btn-primary btn-sm py-1 px-2.5 text-xs shadow-xs"
+                                >
+                                  {updatingId === ord._id ? 'Updating...' : `Advance to ${nextSt}`}
+                                </button>
+                              ))}
+                            </div>
+                          ) : (
+                            <span className="text-xs text-charcoal-400 italic">None</span>
+                          )}
+                        </td>
+
+                        <td className="py-4 px-6 text-right">
+                          <button
+                            type="button"
+                            onClick={() => handleOpenDetail(ord)}
+                            className="btn-outline btn-sm py-1.5 px-3 flex items-center gap-1 ml-auto"
+                          >
+                            <FiEye className="w-3.5 h-3.5" />
+                            <span>View</span>
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
 
         <div className="p-4 border-t border-charcoal-100">
