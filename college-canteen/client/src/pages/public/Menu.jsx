@@ -89,6 +89,23 @@ export default function Menu() {
         <p className="section-subtitle">
           Discover a wide variety of fresh, delicious dishes made daily.
         </p>
+
+        {/* Food Category Banner */}
+        <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
+          {[
+            { img: 'https://images.unsplash.com/photo-1567337710282-00832b415979?w=400&h=200&fit=crop', label: 'Rice & Biryani' },
+            { img: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&h=200&fit=crop', label: 'Snacks' },
+            { img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=200&fit=crop', label: 'Healthy Bowls' },
+            { img: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=200&fit=crop', label: 'Main Course' },
+          ].map(({ img, label }) => (
+            <div key={label} className="relative aspect-video rounded-2xl overflow-hidden shadow group cursor-pointer">
+              <img src={img} alt={label} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-3">
+                <span className="text-white text-xs font-bold">{label}</span>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Filter controls */}

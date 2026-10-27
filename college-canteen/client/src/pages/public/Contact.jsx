@@ -76,12 +76,20 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* Google Map Mock Card */}
-            <div className="card p-4 border border-charcoal-100 overflow-hidden">
-              <div className="h-44 w-full bg-charcoal-100 rounded-xl flex flex-col items-center justify-center text-charcoal-500 text-xs p-4 text-center border border-charcoal-200">
-                <FiMapPin className="w-8 h-8 text-primary-500 mb-2 animate-bounce" />
-                <span className="font-semibold text-charcoal-800">Campus Interactive Map</span>
-                <span>Student Center Ground Floor (Near Central Library)</span>
+            {/* Canteen Photo Card */}
+            <div className="card p-0 border border-charcoal-100 overflow-hidden rounded-2xl">
+              <div className="relative h-52 w-full overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1567521464027-f127ff144326?w=700&h=400&fit=crop"
+                  alt="Campus canteen interior"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+                  <div className="flex items-center gap-2 text-white">
+                    <FiMapPin className="w-4 h-4 text-primary-400 flex-shrink-0" />
+                    <span className="text-xs font-semibold">Student Center Ground Floor (Near Central Library)</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

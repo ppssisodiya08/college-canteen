@@ -30,8 +30,8 @@ export const PAYMENT_METHOD = {
   COUNTER: 'counter',
 };
 
-// Fallback image when a food item has no image
-export const FALLBACK_FOOD_IMAGE = 'https://placehold.co/400x300/f97316/ffffff?text=Food+Item';
+// Fallback image when a food item has no image or has an old placeholder image
+export const FALLBACK_FOOD_IMAGE = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop';
 
 // API base URL — reads from .env (VITE_API_URL) or defaults to /api
 export const API_BASE = import.meta.env.VITE_API_URL || '/api';

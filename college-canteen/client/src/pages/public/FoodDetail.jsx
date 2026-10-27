@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiClock, FiPlus, FiMinus, FiShoppingCart, FiCheck } from 'react-icons/fi';
 import * as foodService from '../../services/foodService';
 import { FALLBACK_FOOD_IMAGE } from '../../utils/constants';
+import { getFoodImage } from '../../utils/foodImages';
 import { formatPrice } from '../../utils/formatCurrency';
 import useCart from '../../hooks/useCart';
 import Spinner from '../../components/common/Spinner';
@@ -92,6 +93,7 @@ export default function FoodDetail() {
 
   const isOutOfStock = food.stock === 0 || food.isAvailable === false;
   const categoryName = food.category?.name || (typeof food.category === 'string' ? food.category : 'General');
+  const resolvedImage = getFoodImage(food.name, food.image, FALLBACK_FOOD_IMAGE);
 
   return (
     <div className="page-container py-8 sm:py-12">
@@ -111,7 +113,7 @@ export default function FoodDetail() {
         {/* Left Column: Food Image */}
         <div className="md:col-span-6 relative rounded-2xl overflow-hidden aspect-4/3 sm:aspect-square bg-charcoal-100 shadow-md">
           <img
-            src={food.image || FALLBACK_FOOD_IMAGE}
+            src={resolvedImage}
             alt={food.name}
             onError={handleImageError}
             className="w-full h-full object-cover"

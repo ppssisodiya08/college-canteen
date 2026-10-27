@@ -82,33 +82,60 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Hero Graphic Card */}
+            {/* Hero Graphic Card – Real Food Image Collage */}
             <div className="lg:col-span-5 flex justify-center">
               <div className="relative w-full max-w-md">
-                <div className="w-full aspect-square rounded-3xl bg-gradient-primary p-8 flex flex-col justify-between shadow-2xl relative overflow-hidden text-white">
-                  {/* Background circles */}
-                  <div className="absolute -right-8 -top-8 w-48 h-48 rounded-full bg-white/10 blur-xl pointer-events-none" />
-                  <div className="absolute -left-8 -bottom-8 w-48 h-48 rounded-full bg-black/10 blur-xl pointer-events-none" />
-
-                  <div className="flex items-center justify-between z-10">
-                    <span className="text-4xl">🍲</span>
-                    <span className="badge bg-white/20 text-white backdrop-blur-md font-semibold text-xs uppercase px-3 py-1">
-                      Campus Favorite
-                    </span>
+                {/* Floating badge */}
+                <div className="absolute -top-4 -right-4 z-20 bg-white rounded-2xl shadow-xl px-4 py-2 flex items-center gap-2 border border-orange-100">
+                  <span className="text-xl">⭐</span>
+                  <div>
+                    <p className="text-xs font-bold text-charcoal-900">4.9 Rating</p>
+                    <p className="text-[10px] text-charcoal-400">500+ Happy Students</p>
                   </div>
+                </div>
 
-                  <div className="text-center my-auto py-6 z-10">
-                    <span className="text-7xl block mb-2 animate-bounce">🍕</span>
-                    <h3 className="text-2xl font-display font-bold">Today's Specials</h3>
-                    <p className="text-orange-100 text-sm mt-1">Made fresh every morning with quality ingredients</p>
+                {/* Floating open badge */}
+                <div className="absolute -bottom-4 -left-4 z-20 bg-white rounded-2xl shadow-xl px-4 py-2 flex items-center gap-2 border border-green-100">
+                  <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse block"></span>
+                  <div>
+                    <p className="text-xs font-bold text-green-700">Open Now</p>
+                    <p className="text-[10px] text-charcoal-400">8:00 AM – 8:00 PM</p>
                   </div>
+                </div>
 
-                  <div className="bg-white/15 backdrop-blur-md rounded-2xl p-4 flex items-center justify-between text-xs z-10">
-                    <div>
-                      <p className="font-semibold text-white">Canteen Hours Today</p>
-                      <p className="text-orange-100">8:00 AM – 8:00 PM</p>
-                    </div>
-                    <span className="badge bg-green-400 text-green-950 font-bold">Open Now</span>
+                {/* 2x2 Image Grid */}
+                <div className="grid grid-cols-2 gap-3 rounded-3xl overflow-hidden shadow-2xl">
+                  <div className="relative aspect-square overflow-hidden rounded-2xl">
+                    <img
+                      src="https://images.unsplash.com/photo-1567337710282-00832b415979?w=400&h=400&fit=crop"
+                      alt="Delicious biryani"
+                      className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute bottom-2 left-2 bg-black/60 backdrop-blur-sm text-white text-[10px] font-semibold px-2 py-1 rounded-lg">Biryani</div>
+                  </div>
+                  <div className="relative aspect-square overflow-hidden rounded-2xl">
+                    <img
+                      src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=400&fit=crop"
+                      alt="Fresh pizza"
+                      className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute bottom-2 left-2 bg-black/60 backdrop-blur-sm text-white text-[10px] font-semibold px-2 py-1 rounded-lg">Pizza</div>
+                  </div>
+                  <div className="relative aspect-square overflow-hidden rounded-2xl">
+                    <img
+                      src="https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&h=400&fit=crop"
+                      alt="Samosa snacks"
+                      className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute bottom-2 left-2 bg-black/60 backdrop-blur-sm text-white text-[10px] font-semibold px-2 py-1 rounded-lg">Snacks</div>
+                  </div>
+                  <div className="relative aspect-square overflow-hidden rounded-2xl">
+                    <img
+                      src="https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=400&h=400&fit=crop"
+                      alt="Fresh meals"
+                      className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute bottom-2 left-2 bg-black/60 backdrop-blur-sm text-white text-[10px] font-semibold px-2 py-1 rounded-lg">Today's Special</div>
                   </div>
                 </div>
               </div>
@@ -211,40 +238,67 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-charcoal-800/80 rounded-2xl p-6 border border-charcoal-700 flex flex-col items-center text-center">
-              <div className="w-12 h-12 rounded-xl bg-primary-500 text-white font-display font-bold text-lg flex items-center justify-center mb-4">
-                1
+            <div className="bg-charcoal-800/80 rounded-2xl overflow-hidden border border-charcoal-700 flex flex-col items-center text-center">
+              <div className="w-full h-32 overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500&h=200&fit=crop"
+                  alt="Browse the menu"
+                  className="w-full h-full object-cover opacity-70 hover:opacity-90 transition-opacity duration-300"
+                />
               </div>
-              <h3 className="font-display font-bold text-lg text-white mb-2">
-                Browse the Menu
-              </h3>
-              <p className="text-charcoal-400 text-xs sm:text-sm leading-relaxed">
-                Explore our full list of foods, check real-time availability, and view prices and prep times.
-              </p>
+              <div className="p-6">
+                <div className="w-12 h-12 rounded-xl bg-primary-500 text-white font-display font-bold text-lg flex items-center justify-center mb-4 mx-auto -mt-10 relative z-10 shadow-lg border-2 border-charcoal-800">
+                  1
+                </div>
+                <h3 className="font-display font-bold text-lg text-white mb-2">
+                  Browse the Menu
+                </h3>
+                <p className="text-charcoal-400 text-xs sm:text-sm leading-relaxed">
+                  Explore our full list of foods, check real-time availability, and view prices and prep times.
+                </p>
+              </div>
             </div>
 
-            <div className="bg-charcoal-800/80 rounded-2xl p-6 border border-charcoal-700 flex flex-col items-center text-center">
-              <div className="w-12 h-12 rounded-xl bg-primary-500 text-white font-display font-bold text-lg flex items-center justify-center mb-4">
-                2
+            <div className="bg-charcoal-800/80 rounded-2xl overflow-hidden border border-charcoal-700 flex flex-col items-center text-center">
+              <div className="w-full h-32 overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=500&h=200&fit=crop"
+                  alt="Add to cart"
+                  className="w-full h-full object-cover opacity-70 hover:opacity-90 transition-opacity duration-300"
+                />
               </div>
-              <h3 className="font-display font-bold text-lg text-white mb-2">
-                Add to Cart & Order
-              </h3>
-              <p className="text-charcoal-400 text-xs sm:text-sm leading-relaxed">
-                Pick your items, review quantities in your shopping cart, and submit your order instantly.
-              </p>
+              <div className="p-6">
+                <div className="w-12 h-12 rounded-xl bg-primary-500 text-white font-display font-bold text-lg flex items-center justify-center mb-4 mx-auto -mt-10 relative z-10 shadow-lg border-2 border-charcoal-800">
+                  2
+                </div>
+                <h3 className="font-display font-bold text-lg text-white mb-2">
+                  Add to Cart & Order
+                </h3>
+                <p className="text-charcoal-400 text-xs sm:text-sm leading-relaxed">
+                  Pick your items, review quantities in your shopping cart, and submit your order instantly.
+                </p>
+              </div>
             </div>
 
-            <div className="bg-charcoal-800/80 rounded-2xl p-6 border border-charcoal-700 flex flex-col items-center text-center">
-              <div className="w-12 h-12 rounded-xl bg-primary-500 text-white font-display font-bold text-lg flex items-center justify-center mb-4">
-                3
+            <div className="bg-charcoal-800/80 rounded-2xl overflow-hidden border border-charcoal-700 flex flex-col items-center text-center">
+              <div className="w-full h-32 overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1567337710282-00832b415979?w=500&h=200&fit=crop"
+                  alt="Pick up and enjoy"
+                  className="w-full h-full object-cover opacity-70 hover:opacity-90 transition-opacity duration-300"
+                />
               </div>
-              <h3 className="font-display font-bold text-lg text-white mb-2">
-                Pick Up & Enjoy
-              </h3>
-              <p className="text-charcoal-400 text-xs sm:text-sm leading-relaxed">
-                Show your order token at the canteen pick-up counter, pay, and grab your delicious meal!
-              </p>
+              <div className="p-6">
+                <div className="w-12 h-12 rounded-xl bg-primary-500 text-white font-display font-bold text-lg flex items-center justify-center mb-4 mx-auto -mt-10 relative z-10 shadow-lg border-2 border-charcoal-800">
+                  3
+                </div>
+                <h3 className="font-display font-bold text-lg text-white mb-2">
+                  Pick Up & Enjoy
+                </h3>
+                <p className="text-charcoal-400 text-xs sm:text-sm leading-relaxed">
+                  Show your order token at the canteen pick-up counter, pay, and grab your delicious meal!
+                </p>
+              </div>
             </div>
           </div>
         </div>

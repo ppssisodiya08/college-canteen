@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { FiPlus, FiClock } from 'react-icons/fi';
 import { FALLBACK_FOOD_IMAGE } from '../../utils/constants';
+import { getFoodImage } from '../../utils/foodImages';
 import { formatPrice } from '../../utils/formatCurrency';
 import useCart from '../../hooks/useCart';
 
@@ -11,6 +12,9 @@ export default function FoodCard({ food }) {
 
   const isOutOfStock = food.stock === 0 || food.isAvailable === false;
   const categoryName = food.category?.name || (typeof food.category === 'string' ? food.category : 'General');
+
+  // Resolve real image: use DB image if real, else match by food name, else fallback
+  const resolvedImage = getFoodImage(food.name, food.image, FALLBACK_FOOD_IMAGE);
 
   const handleImageError = (e) => {
     e.target.onerror = null;
@@ -29,7 +33,7 @@ export default function FoodCard({ food }) {
       {/* Image container */}
       <Link to={`/menu/${food._id}`} className="relative block aspect-video sm:aspect-4/3 overflow-hidden bg-charcoal-100">
         <img
-          src={food.image || FALLBACK_FOOD_IMAGE}
+          src={resolvedImage}
           alt={food.name}
           onError={handleImageError}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"

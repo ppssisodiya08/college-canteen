@@ -20,37 +20,37 @@ const seedData = async () => {
     await Food.deleteMany({});
     console.log('✅ Cleared existing collections.');
 
-    // 2. Create 5 Categories
+    // 2. Create 5 Categories with real food images
     console.log('📦 Creating categories...');
     const categoryData = [
       {
         name: 'Snacks',
         description: 'Quick bites, savory finger foods, and warm treats for in-between breaks.',
-        image: 'https://placehold.co/400x300/f97316/ffffff?text=Snacks',
+        image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&h=300&fit=crop',
         isActive: true,
       },
       {
         name: 'Main Course',
         description: 'Hearty, wholesome, and satisfying lunch and dinner meals.',
-        image: 'https://placehold.co/400x300/f97316/ffffff?text=Main+Course',
+        image: 'https://images.unsplash.com/photo-1567337710282-00832b415979?w=400&h=300&fit=crop',
         isActive: true,
       },
       {
         name: 'Beverages',
         description: 'Chilled refreshments, warm brews, and energizing specialty drinks.',
-        image: 'https://placehold.co/400x300/f97316/ffffff?text=Beverages',
+        image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&h=300&fit=crop',
         isActive: true,
       },
       {
         name: 'Fast Food',
         description: 'Fresh burgers, cheesy slices, and crispy fries made to order.',
-        image: 'https://placehold.co/400x300/f97316/ffffff?text=Fast+Food',
+        image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop',
         isActive: true,
       },
       {
         name: 'Combos',
         description: 'Value meal packs and traditional platter combos that hit the spot.',
-        image: 'https://placehold.co/400x300/f97316/ffffff?text=Combos',
+        image: 'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=400&h=300&fit=crop',
         isActive: true,
       },
     ];
@@ -80,7 +80,7 @@ const seedData = async () => {
     });
     console.log(`✅ Admin user created: ${adminUser.email}`);
 
-    // 4. Create 12 Food items
+    // 4. Create 12 Food items with real Unsplash images
     console.log('🍔 Creating food items...');
     const foodItemsData = [
       {
@@ -91,7 +91,8 @@ const seedData = async () => {
         stock: 50,
         isAvailable: true,
         preparationTime: '10-15 mins',
-        image: 'https://placehold.co/400x300/f97316/ffffff?text=Veg+Burger',
+        // Real burger image
+        image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop',
       },
       {
         name: 'Cheese Sandwich',
@@ -101,7 +102,8 @@ const seedData = async () => {
         stock: 30,
         isAvailable: true,
         preparationTime: '10-15 mins',
-        image: 'https://placehold.co/400x300/f97316/ffffff?text=Cheese+Sandwich',
+        // Real sandwich image
+        image: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&h=300&fit=crop',
       },
       {
         name: 'Masala Dosa',
@@ -111,7 +113,8 @@ const seedData = async () => {
         stock: 40,
         isAvailable: true,
         preparationTime: '10-15 mins',
-        image: 'https://placehold.co/400x300/f97316/ffffff?text=Masala+Dosa',
+        // Real dosa image
+        image: 'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=400&h=300&fit=crop',
       },
       {
         name: 'Veg Fried Rice',
@@ -121,7 +124,8 @@ const seedData = async () => {
         stock: 35,
         isAvailable: true,
         preparationTime: '10-15 mins',
-        image: 'https://placehold.co/400x300/f97316/ffffff?text=Veg+Fried+Rice',
+        // Real fried rice image
+        image: 'https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400&h=300&fit=crop',
       },
       {
         name: 'Paneer Roll',
@@ -131,7 +135,8 @@ const seedData = async () => {
         stock: 25,
         isAvailable: true,
         preparationTime: '10-15 mins',
-        image: 'https://placehold.co/400x300/f97316/ffffff?text=Paneer+Roll',
+        // Real paneer roll / wrap image
+        image: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400&h=300&fit=crop',
       },
       {
         name: 'Samosa',
@@ -141,7 +146,8 @@ const seedData = async () => {
         stock: 100,
         isAvailable: true,
         preparationTime: '5-10 mins',
-        image: 'https://placehold.co/400x300/f97316/ffffff?text=Samosa',
+        // Real samosa image
+        image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&h=300&fit=crop',
       },
       {
         name: 'French Fries',
@@ -151,7 +157,8 @@ const seedData = async () => {
         stock: 60,
         isAvailable: true,
         preparationTime: '10-15 mins',
-        image: 'https://placehold.co/400x300/f97316/ffffff?text=French+Fries',
+        // Real french fries image
+        image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400&h=300&fit=crop',
       },
       {
         name: 'Cold Coffee',
@@ -161,7 +168,8 @@ const seedData = async () => {
         stock: 50,
         isAvailable: true,
         preparationTime: '10-15 mins',
-        image: 'https://placehold.co/400x300/f97316/ffffff?text=Cold+Coffee',
+        // Real iced coffee image
+        image: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&h=300&fit=crop',
       },
       {
         name: 'Tea',
@@ -171,7 +179,8 @@ const seedData = async () => {
         stock: 200,
         isAvailable: true,
         preparationTime: '2-5 mins',
-        image: 'https://placehold.co/400x300/f97316/ffffff?text=Tea',
+        // Real chai / tea image
+        image: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400&h=300&fit=crop',
       },
       {
         name: 'Fresh Lime Soda',
@@ -181,7 +190,8 @@ const seedData = async () => {
         stock: 80,
         isAvailable: true,
         preparationTime: '10-15 mins',
-        image: 'https://placehold.co/400x300/f97316/ffffff?text=Fresh+Lime+Soda',
+        // Real lime soda / mocktail image
+        image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&h=300&fit=crop',
       },
       {
         name: 'Pizza',
@@ -191,7 +201,8 @@ const seedData = async () => {
         stock: 20,
         isAvailable: true,
         preparationTime: '15-20 mins',
-        image: 'https://placehold.co/400x300/f97316/ffffff?text=Pizza',
+        // Real pizza image
+        image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop',
       },
       {
         name: 'Veg Thali',
@@ -201,7 +212,8 @@ const seedData = async () => {
         stock: 30,
         isAvailable: true,
         preparationTime: '15-20 mins',
-        image: 'https://placehold.co/400x300/f97316/ffffff?text=Veg+Thali',
+        // Real thali / meal platter image
+        image: 'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=400&h=300&fit=crop',
       },
     ];
 
